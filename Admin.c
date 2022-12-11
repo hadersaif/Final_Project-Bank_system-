@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <string.h>
-#include"Types.h"
-#include"Admin.h"
-#include"Client.h"
+#include <time.h>
+#include "Types.h"
+#include "Admin.h"
+#include "Client.h"
+
 node*ptr;
 node*first=NULL;
 node*last=NULL;
@@ -21,6 +23,16 @@ void creat_Imaginary_account(void){
 	first=ptr_Imaginary;
 	last=ptr_Imaginary;
 
+}
+
+
+/*
+	used to generate id & password defult (used by admin mode only)
+*/
+u32 generate_ID_pw(void)
+{
+	time_t sec = time(NULL);
+	return (sec %10000000000);
 }
 
 /*
@@ -88,25 +100,18 @@ while(ok==0);
 	
 	 //ptr_new->bank_account_ID = &ptr_new;
 	 
-	printf("please enter bank account ID");
+	//printf("please enter bank account ID");
 	//scanf("%d",&ptr_new->bank_account_ID);
-	ptr_new->bank_account_ID = generate_ID();
-	ptr_new->pw = generate_ID();
+	
+	
+	ptr_new->bank_account_ID = generate_ID_pw();
+	ptr_new->pw = generate_ID_pw();
 	//fflush(stdin);
 	//printf("please enter your password");
 	//scanf("%d",&ptr_new->pw);
 	//fflush(stdin);
 
 }
-
-/*
-	used to generate id% passward defult (used by admin mode only)
-*/
-u32 generate_ID_pw(){
-	time_t sec = time(NULL);
-	return (sec %1e10);
-}
-
 
 
 /*
