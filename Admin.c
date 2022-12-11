@@ -41,9 +41,20 @@ void creat_new_account(void) {
     ptr_new->next = NULL;
     last->next = ptr_new;
     last = ptr_new;
-
+ int ok=0;
+ int yes=1 ; 
+do{   
     printf("please enter your full name 'at least first four names':");
     scanf(" %[^\n]", ptr_new->name);
+	for (int i=0;i<sizeof(ptr_new->name);i++)
+		if (ptr_new->name[i]>='1'&& ptr_new->name[i]<='9'){
+			yes=0;
+			printf("Name is containing a digit\n");
+		break;}
+		if(yes==1)ok=1;
+}
+while(ok==0);
+
 	fflush(stdin);
     printf("please enter your Full Address:");
     scanf(" %[^\n]", ptr_new->address);
@@ -54,7 +65,7 @@ void creat_new_account(void) {
 		fflush(stdin);
     } while (((ptr_new->national_ID) < 10000000000000) || ((ptr_new->national_ID) > 99999999999999));
 
-    do {
+    
         printf("please enter your age");
         scanf("%d", &ptr_new->age);
 		fflush(stdin);
@@ -62,38 +73,41 @@ void creat_new_account(void) {
         if (ptr_new->age < 21) {
             printf("please enter your guardian name");
             scanf(" %s", ptr_new->guardian);
-            printf("please enter your guardian National ID'at least 14 digits'");
+           do {
+		   printf("please enter your guardian National ID'at least 14 digits'");
             scanf("%lld", &ptr_new->national_ID);
 
-        }
     } while(((ptr_new->guardian_ID)<10000000000000)||((ptr_new->guardian_ID)>99999999999999));
+}
 
 	
 	printf("please enter your balance");
 	scanf("%d",&ptr_new->balance);
 	fflush(stdin);
 	ptr_new->account_status=1;
+	
+	 //ptr_new->bank_account_ID = &ptr_new;
+	 
 	printf("please enter bank account ID");
-	scanf("%d",&ptr_new->bank_account_ID);
-	fflush(stdin);
-	printf("please enter your password");
-	scanf("%d",&ptr_new->pw);
-	fflush(stdin);
+	//scanf("%d",&ptr_new->bank_account_ID);
+	ptr_new->bank_account_ID = generate_ID();
+	ptr_new->pw = generate_ID();
+	//fflush(stdin);
+	//printf("please enter your password");
+	//scanf("%d",&ptr_new->pw);
+	//fflush(stdin);
+
 }
 
 /*
-	used to generate new id each time the user creat new account (used by admin mode only)
+	used to generate id% passward defult (used by admin mode only)
 */
-u32 generate_ID(){
-	Global_id++;
+u32 generate_ID_pw(){
+	time_t sec = time(NULL);
+	return (sec %1e10);
 }
 
-/*
-   used to generate new password each time the user creat new account  (used by admin mode only)
-*/
-u32 generate_pw(){
-	global_pw++;
-}
+
 
 /*
 In this function you will be asked to enter Client Bank Account ID then
@@ -222,7 +236,7 @@ void Change_Account_Status(u32 bank_account_ID){
 
 void admin_mode(u8 *ext){
 	u32 user,pw,choice;
-	printf("please enter the user name of admin :");
+	printf("please enter the username of admin :");
 	scanf(" %d",&user);
 	fflush(stdin);
 	printf("please enter the password for admin :");
