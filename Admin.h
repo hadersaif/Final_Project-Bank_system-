@@ -24,8 +24,7 @@ void creat_new_account(void);
 void open_exisiting_account(void);	
 void Change_Account_Status(u32 bank_account_ID);
 void admin_mode(u8 *ext); 
-u32 generate_ID(void);
-u32 generate_pw(void);
+u32 generate_ID_pw(void);
 
 
 
